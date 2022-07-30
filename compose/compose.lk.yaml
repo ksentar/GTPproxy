@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  lk:
+    build: ../docker/node-alpine
+    working_dir: /app
+    user: ${APP_UID}
+    volumes:
+      - ../lk:/app
+    expose:
+      - 3000
+    command: sh -c 'yarn && yarn dev'
+    networks:
+      - default
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-lk.rule=Host(`${APP_HOST}`)
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true

@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  api:
+    build: ../docker/node-alpine
+    depends_on:
+      - postgres
+    working_dir: /app
+    user: ${APP_UID}
+    volumes:
+      - ../api:/app
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_ENDPOINT: http://graphql-engine:8080
+    expose:
+      - 3000
+    command: sh -c 'yarn && yarn start:dev'
+    restart: unless-stopped

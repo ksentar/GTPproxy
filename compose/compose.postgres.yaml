@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - default
+      - web
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true
