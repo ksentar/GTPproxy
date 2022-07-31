@@ -21,14 +21,14 @@ up-d-build:
 restart-api:
 	@docker-compose restart api
 
-restart-lk:
-	@docker-compose restart lk
+restart-admin:
+	@docker-compose restart admin
 
 logs-api:
 	@docker-compose logs --tail=100 -f --no-log-prefix api
 
-logs-lk:
-	@docker-compose logs --tail=100 -f --no-log-prefix lk
+logs-admin:
+	@docker-compose logs --tail=100 -f --no-log-prefix admin
 
 prisma-db-pull:
 	@docker-compose exec api npx prisma db pull
@@ -60,8 +60,8 @@ traefik-network-web-create:
 shell-api:
 	@docker-compose exec api ash
 
-shell-lk:
-	@docker-compose exec lk ash
+shell-admin:
+	@docker-compose exec admin ash
 
 shell-hasura:
 	@docker-compose exec hasura bash
