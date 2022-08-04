@@ -1,15 +1,34 @@
-// in src/admin/App.jsx
-import * as React from "react";
-import { Admin, Resource, ListGuesser } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server';
+import React, { useState, useEffect } from 'react';
+import buildHasuraProvider from 'ra-data-hasura';
+import { Admin, Resource } from 'react-admin';
 
-const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
+import { PostCreate, PostEdit, PostList } from './posts';
 
-const App = () => (
-    <Admin dataProvider={dataProvider}>
-        <Resource name="posts" list={ListGuesser} />
-        <Resource name="comments" list={ListGuesser} />
-    </Admin>
-);
+const App = () => {
+    const [dataProvider, setDataProvider] = useState(null);
+
+    useEffect(() => {
+        const buildDataProvider = async () => {
+            const dataProvider = await buildHasuraProvider({
+                clientOptions: { uri: 'http://gtpproxy.ksentar-dev.lan/v1/graphql' },
+            });
+            setDataProvider(() => dataProvider);
+        };
+        buildDataProvider();
+    }, []);
+
+    if (!dataProvider) return <p>Loading...</p>;
+
+    return (
+        <Admin dataProvider={dataProvider}>
+            <Resource
+                name="Post"
+                list={PostList}
+                edit={PostEdit}
+                create={PostCreate}
+            />
+        </Admin>
+    );
+};
 
 export default App;
