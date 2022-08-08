@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import buildHasuraProvider from 'ra-data-hasura';
-import { Admin, Resource } from 'react-admin';
+import { Admin, ListGuesser, Resource } from 'react-admin';
 
 import { PostCreate, PostEdit, PostList } from './posts';
 
@@ -22,10 +22,8 @@ const App = () => {
     return (
         <Admin dataProvider={dataProvider}>
             <Resource
-                name="Post"
-                list={PostList}
-                edit={PostEdit}
-                create={PostCreate}
+                name="test"
+                list={ListGuesser}
             />
         </Admin>
     );
